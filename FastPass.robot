@@ -5,17 +5,22 @@ Library             OperatingSystem
 #Suite Teardown      Close Browser
 
 *** Variables ***
-${PASSWORD}     password
-${EMAIL}        email
-${URL}          https://disneyworld.disney.go.com/fastpass-plus/select-party/
-${DATE}         22
-${PARK}         Magic Kingdom Park
+${PASSWORD}          password
+${EMAIL}             email
+${URL}               https://disneyworld.disney.go.com/fastpass-plus/select-party/
+${DATE}              22
+${PARK}              Magic Kingdom Park
+${ATTRACTION}        attraction   
 ${ENCHANTED_TALES}   //img[@ng-src='https://secure.cdn1.wdpromedia.com/resize/mwImage/1/460/260/75/dam/wdpro-assets/parks-and-tickets/entertainment/character-experience/magic-kingdom/enchanted-tales-with-belle/enchanted-tales-with-belle-00.jpg?1523278414963']
-${TEST_TRACK}   //img[@ng-src='https://secure.cdn1.wdpromedia.com/resize/mwImage/1/460/260/75/dam/wdpro-assets/parks-and-tickets/attractions/epcot/test-track/test-track-presented-by-chevrolet-00.jpg?1521043373554'] 
-${present}      False
+${TEST_TRACK}        //img[@ng-src='https://secure.cdn1.wdpromedia.com/resize/mwImage/1/460/260/75/dam/wdpro-assets/parks-and-tickets/attractions/epcot/test-track/test-track-presented-by-chevrolet-00.jpg?1521043373554'] 
+${present}           False
+${USERS_FIRST_NAME}  Kyle
+@{USERS}             
 *** Test Cases ***
 Grab Times
     Login
+
+    Select Users
 
     Get To Fastpass Selection
 
@@ -25,7 +30,7 @@ Grab Times
 Login
     Open Browser   ${URL}   Chrome
 
-    Sleep   10s
+    Sleep   5s
 
     Input Text    loginPageUsername    ${EMAIL}
 
@@ -33,19 +38,23 @@ Login
 
     Click Button  loginPageSubmitButton
 
-Get To Fastpass Selection
+Select Users
+    Wait Until Element Is Visible     xpath://span[contains(@class,'me ng-scope')]
 
-    Sleep   15s
+    #Click Element   xpath://span[contains(@class,'me ng-scope')]
 
-    #Click Image   Olaf
-    
-    #Click Image   Buzz Lightyear
+    :FOR    ${i}    IN    @{USERS}
+    \    Log    ${i}
+    \    Wait Until Element Is Visible     xpath://span[contains(text(),'${i}')]
+    \    Click Element   xpath://span[contains(text(),'${i}')]
+    Log    Exited
 
     #Clicks the next button to move onto the date selector
-    Wait Until Element Is Visible     xpath://div[@class='ng-scope button next primary']
+    Wait Until Element Is Visible     xpath://div[contains(@class,'ng-scope button next primary')]
 
-    Click Element    xpath://div[@class='ng-scope button next primary']
+    Click Element    xpath://div[contains(@class,'ng-scope button next primary')]
 
+Get To Fastpass Selection
     #Clicks on the date
     Wait Until Element Is Visible    xpath://span[contains(text(),'${DATE}')]
 
