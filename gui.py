@@ -16,13 +16,13 @@ magic_kingdom_att = ["The Barnstormer", "Big Thunder Mountain Railroad", "Buzz L
 "Meet Tinker Bell at Town Square Theater", "Mickey's PhilharMagic", "Monsters, Inc. Laugh Floor", "Peter Pan's Flight", "Pirates of the Caribbean", \
 "Seven Dwarfs Mine Train", "Space Mountain", "Splash Mountain", "Tomorrowland Speedway", "Under the Sea ~ Journey of The Little Mermaid"]
 
-epcot_att = ["Disney & Pixar Short Film Festival", "Frozen Ever After", "Illuminations: Reflections of Earth", "Journey Into Imagination With Figment", \
+epcot_att = ["Pixar Short Film Festival", "Frozen Ever After", "Illuminations: Reflections of Earth", "Journey Into Imagination With Figment", \
 "Living with the Land", "Meet Disney Pals at the Epcot Character Spot", "Mission: SPACE", "The Seas with Nemo & Friends", "Soarin' Around the World", \
 "Spaceship Earth", "Test Track", "Turtle Talk With Crush" ]
 
 studios_att = ["Alien Swirling Saucers - Now Open!", "Beauty and the Beast-Live on Stage", "Fantasmic!", "For the First Time in Forever: A Frozen Sing-Along Celebration", \
 "Indiana Jones™ Epic Stunt Spectacular!", "Muppet*Vision 3D", "Rock 'n' Roller Coaster Starring Aerosmith", "Star Tours – The Adventures Continue", \
-"Toy Story Mania!", "The Twilight Zone Tower of Terror™", "Voyage of The Little Mermaid"]
+"Slinky Dog Dash - Now Open!", "Toy Story Mania!", "The Twilight Zone Tower of Terror™", "Voyage of The Little Mermaid"]
 
 dak_att = ["Avatar Flight of Passage", "DINOSAUR", "Expedition Everest - Legend of the Forbidden Mountain", "Festival of the Lion King", \
 "Finding Nemo - The Musical", "It's Tough to be a Bug!", "Kali River Rapids", "Kilimanjaro Safaris", "Meet Favorite Disney Pals at Adventurers Outpost", \
@@ -42,17 +42,17 @@ def RobotCallBack(variables):
 
 def SetAttractions(park):
     if park == "Magic Kingdom Park":
-        attraction.set("")
-        OptionMenu_Attractions.set_menu(*magic_kingdom_att)
+        attraction.set("1")
+        OptionMenu_Attractions.set_menu("The Barnstormer", *magic_kingdom_att)
     elif park == "Epcot":
-        attraction.set("")
-        OptionMenu_Attractions.set_menu(*epcot_att)
+        attraction.set("2")
+        OptionMenu_Attractions.set_menu("Pixar Short Film Festival", *epcot_att)
     elif park == "Disney's Hollywood Studios":
-        attraction.set("")
-        OptionMenu_Attractions.set_menu(*studios_att)
+        attraction.set("3")
+        OptionMenu_Attractions.set_menu("Alien Swirling Saucers - Now Open!", *studios_att)
     elif park == "Disney's Animal Kingdom Theme Park":
-        attraction.set("")
-        OptionMenu_Attractions.set_menu(*dak_att)
+        attraction.set("4")
+        OptionMenu_Attractions.set_menu("Avatar Flight of Passage", *dak_att)
     
 
 
