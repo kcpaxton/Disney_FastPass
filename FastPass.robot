@@ -22,15 +22,11 @@ ${NUMBER_OF_USERS}   0
 *** Test Cases ***
 Grab Times 
 
-    Set Dictionary
-
     Login
 
     Select Users
 
     Get To Fastpass Selection
-
-    Set Attraction
 
     Check For Times
 
@@ -107,9 +103,9 @@ Check For Times
 Choose Attraction
     #Clicks the specified Attraction
 
-    Wait Until Element Is Visible    ${ATTRACTION_XPATH}
+    Wait Until Element Is Visible    //div[contains(text(),'${ATTRACTION}')]
 
-    Click Element   ${ATTRACTION_XPATH}
+    Click Element   //div[contains(text(),'${ATTRACTION}')]
 
     Sleep  3s
 
