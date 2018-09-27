@@ -13,9 +13,11 @@ ${PARK}              Magic Kingdom Park
 ${ATTRACTION}        attraction   
 ${present}           False
 ${USERS_FIRST_NAME}  Kyle
-@{USERS}
+@{USERS}             Derrick  Hello
+${INCLUDE_SELF}      True
 &{ATTRACTION_DICT}
 ${ATTRACTION_XPATH}
+${NUMBER_OF_USERS}   0
 
 *** Test Cases ***
 Grab Times 
@@ -47,12 +49,13 @@ Login
 Select Users
     Wait Until Element Is Visible     xpath://span[contains(@class,'me ng-scope')]
 
-    #Click Element   xpath://span[contains(@class,'me ng-scope')]
+    Run Keyword If  '${INCLUDE_SELF}' == 'False'
+    ...         Click Element   xpath://span[contains(@class,'me ng-scope')]
 
-    :FOR    ${i}    IN    @{USERS}
-    \    Log    ${i}
-    \    Wait Until Element Is Visible     xpath://span[contains(text(),'${i}')]
-    \    Click Element   xpath://span[contains(text(),'${i}')]
+    :FOR    ${i}    IN RANGE    ${NUMBER_OF_USERS}
+    \    Log    ${USER${i}}
+    \    Wait Until Element Is Visible     xpath://span[contains(text(),'${USER${i}}')]
+    \    Click Element   xpath://span[contains(text(),'${USER${i}}')]
     Log    Exited
 
     #Clicks the next button to move onto the date selector

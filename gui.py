@@ -30,6 +30,8 @@ dak_att = ["Avatar Flight of Passage", "DINOSAUR", "Expedition Everest - Legend 
 
 variables = ''
 
+widgets = []
+
 def RobotCallBack(variables):
     variables += (' -v EMAIL:'+Entry_Email.get())
     variables += (' -v PASSWORD:'+Entry_Password.get())
@@ -38,7 +40,17 @@ def RobotCallBack(variables):
     variables += (' -v PARK:'+park.get())
     attraction.set(attraction.get().replace(" ", "_"))
     variables += (' -v ATTRACTION:'+attraction.get())
+    variables += (' -v INCLUDE_SELF:'+(str(include_self.get())))
+    variables = AppendUsersToVariables(variables)
     os.system('robot -d results -E space:_' + variables +  ' FastPass.robot')
+
+def AppendUsersToVariables(variables):
+    i=0
+    for val in widgets:
+        variables += (' -v USER'+str(i)+':'+val.get())
+        i += 1
+    variables += (' -v NUMBER_OF_USERS:'+str(len(widgets)))
+    return variables
 
 def SetAttractions(park):
     if park == "Magic Kingdom Park":
@@ -53,33 +65,44 @@ def SetAttractions(park):
     elif park == "Disney's Animal Kingdom Theme Park":
         attraction.set("4")
         OptionMenu_Attractions.set_menu("Avatar Flight of Passage", *dak_att)
-    
 
+def AddUser():
+    Label(top, text="User "+str(len(widgets)) , font=("Helvetica", 12), anchor=W, justify=LEFT, width=12).grid(row=current_row.get())
+    Entry_User = Entry(top, width=12)
+    Entry_User.grid(row=current_row.get(), column=1, sticky="ew")
+    widgets.append(Entry_User)
+    current_row.set(current_row.get()+1)
 
 
 
 #MAIN ******************************************************
 top = Tk()
-top.geometry("800x500")  
+top.geometry("500x250")  
 
 park = StringVar()
 attraction = StringVar()
+include_self = BooleanVar()
+current_row = IntVar()
 
 Label(top, text="Email",       font=("Helvetica", 12), anchor=W, justify=LEFT, width=12).grid(row=0)
 Label(top, text="Password",    font=("Helvetica", 12), anchor=W, justify=LEFT, width=12).grid(row=1)
 Label(top, text="Date (1-31)", font=("Helvetica", 12), anchor=W, justify=LEFT, width=12).grid(row=2)
 Label(top, text="Park",        font=("Helvetica", 12), anchor=W, justify=LEFT, width=12).grid(row=3)
 Label(top, text="Attraction",  font=("Helvetica", 12), anchor=W, justify=LEFT, width=12).grid(row=4)
+Label(top, text="Include Self?",  font=("Helvetica", 12), anchor=W, justify=LEFT, width=12).grid(row=5)
 
 Entry_Email = Entry(top, width=12)
 Entry_Email.insert(END, 'kcpaxtwin@gmail.com')
 
 Entry_Password = Entry(top, width=12)
 Entry_Password.insert(END, 'TheTruestDisney99@@@')
+
+
 Spinbox_Date = Spinbox(top, from_=1, to=31, width=12)
 Spinbox_Date.insert(0,1)
 
-
+include_self.set(True)
+CheckButton_IncludeSelf = Checkbutton(top, text="Include me in fastpass selection", variable=include_self)
 
 park.set("Magic Kingdom Park")
 OptionMenu_Parks = OptionMenu(top, park, "Magic Kingdom Park", *parks, command=lambda x: SetAttractions(park.get()))
@@ -87,15 +110,22 @@ OptionMenu_Parks = OptionMenu(top, park, "Magic Kingdom Park", *parks, command=l
 attraction.set("Enchanted Tales With Belle")
 OptionMenu_Attractions = OptionMenu(top, attraction, "The Barnstormer", *magic_kingdom_att)
 
+Button_AddUser = Button(top,text="Add User To Party",command=AddUser, width = 20)
+
+
+Button_FastPass = Button(top,text="Get Fastpass!",command=lambda: RobotCallBack(variables), width = 20)
+
+
 Entry_Email.grid(row=0, column=1, sticky="ew")
 Entry_Password.grid(row=1, column=1, sticky="ew")
 Spinbox_Date.grid(row=2, column=1, sticky="ew")
 OptionMenu_Parks.grid(row=3, column=1, sticky="ew")
 OptionMenu_Attractions.grid(row=4, column=1, sticky="ew")
+CheckButton_IncludeSelf.grid(row=5, column=1, sticky="ew")
+Button_AddUser.grid(row=29, column=0, columnspan=2, sticky="ew")
+Button_FastPass.grid(row=30, column=0, columnspan=2, sticky="ew")
 
-Button_FastPass = Button(top,text="Get Fastpass!",command=lambda: RobotCallBack(variables), width = 20)
-Button_FastPass.grid(row=0, column=2, padx=(100, 10))
-
+current_row.set(6)
 
 top.mainloop()
 
